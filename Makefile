@@ -1,9 +1,6 @@
 all: compile
 
-Emakefile: src/*.erl
-	scripts/update_sources '[{outdir,"ebin"}]' src
-
-compile: Emakefile
+compile: Emakefile src/*.erl
 	@erl -make
 
 clean:
