@@ -9,5 +9,8 @@ clean:
 	rm -f ebin/*.beam
 	rm -f erl_crash.dump
 
+test: compile
+	prove tests/*.t
+
 live: compile
 	erl -sname console -pa ebin
