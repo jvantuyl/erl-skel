@@ -2,7 +2,7 @@ all: compile
 
 .PHONY: compile live clean
 
-compile: Emakefile src/*.erl
+compile: Emakefile src/* $(wildcard include/*)
 	erl -make
 
 clean:
