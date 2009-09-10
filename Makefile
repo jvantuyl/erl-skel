@@ -20,4 +20,4 @@ report: cover
 	open cover/index.html
 
 live: compile
-	erl -sname console -pa ebin
+	erl -sname console -pa `pwd`/ebin
