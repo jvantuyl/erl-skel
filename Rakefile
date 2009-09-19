@@ -34,25 +34,21 @@ task :clean do
   system 'rm -f releases/*.{boot,script,tar.gz} releases/relup'
 end
 
-task :test => [:compile]
-task :test do
+task :test => [:compile] do
   system 'prove lib/*/tests/*.t tests/*.t'
 end
 
-task :cover => [:compile]
-task :cover do
+task :cover => [:compile] do
   ENV['COVER'] = '1'
   system 'prove lib/*/tests/*.t tests/*.t'
   system 'erl -noshell -s etap_report create -s init stop'
 end
 
-task :report => [:cover]
-task :report do
+task :report => [:cover] do
   system 'open cover/index.html'
 end
 
-task :live => [:compile]
-task :live do
+task :live => [:compile] do
   system 'erl -sname console'
 end
 
