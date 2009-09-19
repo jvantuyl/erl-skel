@@ -25,7 +25,7 @@ task :help do
   puts '  clean:            Removes all compiled modules'
   puts '  test:             Runs Unit Tests'
   puts '  cover:            Runs Unit Tests, Generating Code Coverage Report'
-  puts '  report:           Opens Code Coverage Report (using open, basically for MacOSX)'
+  puts '  report:           Opens Code Coverage Report (using open, for MacOSX)'
   puts '  console:          starts an interactive Erlang node as a console'
   puts '  workers:          Lists running worker processes'
   puts '  start_workers[N]: starts N detached workers, if none are running'
