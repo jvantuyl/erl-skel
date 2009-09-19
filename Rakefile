@@ -82,9 +82,13 @@ end
 
 task :start_workers, [:number] => [:compile] do |t,args|
   raise "workers already started" if workers.length > 0
-  workers = 0 .. args.number.to_i
-  workers.each do |x|
-    sh "scripts/start_node", sprintf("worker_%05d",x)
+  workers = args.number.to_i
+  if workers > 0
+    (0 ... workers).each do |x|
+      sh "scripts/start_node", sprintf("worker_%05d",x)
+    end
+  else
+    puts "Please specify how many workers to start..."
   end
 end
 
