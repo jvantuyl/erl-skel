@@ -1,4 +1,5 @@
 # Boilerplate
+require 'find'
 task :default => [:compile]
 
 # Some Environment Tweaks
@@ -14,6 +15,41 @@ end
 
 def glob( *args )
   Dir::glob *args
+end
+
+def renamefile(skeldir,modname,f)
+  f = f.sub /^templates\/#{skeldir}\//, "lib/#{modname}-0.1/"
+  f.gsub! /SKEL/,"#{modname}"
+  f
+end
+
+def translate_line(modname,l)
+  l = l.gsub /SKEL/, "#{modname}"
+  l.gsub! /VSN/,  "0.1"
+  l
+end
+
+def copy_skel( skeldir, modname )
+  text_ext = ['.app','.erl']
+  Find.find 'templates/' + skeldir do |f|
+    if File.directory?(f)
+      mkdir_p renamefile(skeldir,modname,f + '/')
+    elsif File.file?(f)
+      newname = renamefile(skeldir,modname,f)
+      print "translate #{f} #{newname}\n"
+      if text_ext.include? File.extname(f)
+        src = File.new(f)
+        dst = File.new(newname,'w')
+        src.each_line do |l|
+          dst.write translate_line(modname,l)
+        end
+        src.close
+        dst.close
+      else
+        cp f, newname
+      end
+    end
+  end
 end
 
 ## Tasks
@@ -98,3 +134,6 @@ task :kill_workers do
   end
 end
 
+task :new_module, [:dir] do |t,args| # TODO: Use args to select skeleton
+  copy_skel 'skel', args[:dir]
+end

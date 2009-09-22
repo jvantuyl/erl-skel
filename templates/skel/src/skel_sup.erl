@@ -1,4 +1,4 @@
--module(skel_sup).
+-module(SKEL_sup).
 -behavior(supervisor).
 
 -export([start_link/0,init/1]).

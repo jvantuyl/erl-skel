@@ -1,12 +1,12 @@
 {application,
-  skel,
+  SKEL,
   [
-    {description, "Skeleton App"},
-    {vsn, "0.1"},
-    {modules,[skel_app,skel_sup]},
-    {registered, [skel_sup]},
+    {description, "TODO"},
+    {vsn, "VSN"},
+    {modules,[SKEL_app,SKEL_sup]},
+    {registered, [SKEL_sup]},
     {applications, [kernel, stdlib, sasl]},
-    {mod, {skel_app,[]}},
+    {mod, {SKEL_app,[]}},
     {env, []}
  ]
 }.
