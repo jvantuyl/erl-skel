@@ -68,7 +68,7 @@ task :help do
   puts '  kill_workers:     kills any running workers'
   puts '  release:          Builds latest release defined in releases'
   puts '  add_release:      Adds a new release'
-  puts '  add_module:       Creates a new module'
+  puts '  new_module:       Creates a new module'
 end
 
 # Building the Erlang Code
@@ -134,6 +134,7 @@ task :kill_workers do
   end
 end
 
-task :new_module, [:dir] do |t,args| # TODO: Use args to select skeleton
-  copy_skel 'skel', args[:dir]
+task :new_module, [:dir,:skel] do |t,args| # TODO: Use args to select skeleton
+  args.with_defaults(:skel => 'skel')
+  copy_skel args[:skel], args[:dir]
 end
