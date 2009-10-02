@@ -134,7 +134,7 @@ task :kill_workers do
   end
 end
 
-task :new_module, [:dir,:skel] do |t,args| # TODO: Use args to select skeleton
+task :new_module, [:dir,:skel] do |t,args|
   args.with_defaults(:skel => 'skel')
   copy_skel args[:skel], args[:dir]
 end
