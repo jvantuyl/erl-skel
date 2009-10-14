@@ -116,6 +116,7 @@ task :start_workers, [:number] => [:compile] do |t,args|
     end
   else
     puts 'Please specify how many workers to start...'
+    exit 1
   end
 end
 
