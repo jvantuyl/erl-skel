@@ -132,7 +132,7 @@ task :new_app, [:dir,:skel] do |t,args|
   unless args[:dir]
     puts 'Please specify a name for the new application...'
     exit 1
-  end 
+  end
   copy_skel args[:skel], args[:dir]
 end
 
