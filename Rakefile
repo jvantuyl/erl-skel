@@ -25,7 +25,7 @@ end
 
 def translate_line(modname,l)
   l = l.gsub /SKEL/, "#{modname}"
-  l.gsub! /VSN/,  "0.1"
+  l.gsub! /VSN/,  '0.1'
   l
 end
 
@@ -36,7 +36,7 @@ def copy_skel( skeldir, modname )
       mkdir_p renamefile(skeldir,modname,f + '/')
     elsif File.file?(f)
       newname = renamefile(skeldir,modname,f)
-      print "translate #{f} #{newname}\n"
+      puts "translate #{f} #{newname}"
       if text_ext.include? File.extname(f)
         src = File.new(f)
         dst = File.new(newname,'w')
@@ -54,24 +54,8 @@ end
 
 ## Tasks
 
-# Administrivia
-task :help do
-  puts 'Helpful Tasks:'
-  puts '  compile:          Compiles all modules in all apps in the library'
-  puts '  clean:            Removes all compiled modules'
-  puts '  test:             Runs Unit Tests'
-  puts '  cover:            Runs Unit Tests, Generating Code Coverage Report'
-  puts '  report:           Opens Code Coverage Report (using open, for MacOSX)'
-  puts '  console:          starts an interactive Erlang node as a console'
-  puts '  workers:          Lists running worker processes'
-  puts '  start_workers[N]: starts N detached workers, if none are running'
-  puts '  kill_workers:     kills any running workers'
-  puts '  release:          Builds latest release defined in releases'
-  puts '  add_release:      Adds a new release'
-  puts '  new_app:          Creates a new application in the library'
-end
-
 # Building the Erlang Code
+desc 'compile code (default)'
 task :compile do
   Dir.glob('lib/*').each do |d|
     if File.directory?(d) and File.exists?(d + '/Emakefile')
@@ -82,6 +66,7 @@ task :compile do
   end
 end
 
+desc 'erase generated files'
 task :clean do
   files  = glob('lib/*/ebin/*.beam')
   files += glob('cover/*.coverdata')
@@ -93,47 +78,55 @@ task :clean do
 end
 
 # Testing
+desc 'run tests (assumes TAP and prove command are available)'
 task :test => [:compile] do
   sh 'prove', 'lib/*/tests/*.t','tests/*.t'
 end
 
+desc 'uses etap to generate code coverage report'
 task :cover => [:compile] do
   ENV['COVER'] = '1'
   sh 'prove', 'lib/*/tests/*.t','tests/*.t'
   sh 'scripts/make_report'
 end
 
+desc 'lazy task to open the report on MacOSX'
 task :report => [:cover] do
   sh 'open', 'cover/index.html'
 end
 
 # Workers and Such
+desc 'open a console loaded with the apps in this library'
 task :console => [:compile] do
   sh 'erl', '-sname', 'console'
 end
 
+desc 'lists workers'
 task :workers do
   puts workers
 end
 
+desc 'starts workers'
 task :start_workers, [:number] => [:compile] do |t,args|
   raise "workers already started" if workers.length > 0
   workers = args.number.to_i
   if workers > 0
     (0 ... workers).each do |x|
-      sh "scripts/start_node", sprintf("worker_%05d",x)
+      sh 'scripts/start_node', sprintf('worker_%05d',x)
     end
   else
-    puts "Please specify how many workers to start..."
+    puts 'Please specify how many workers to start...'
   end
 end
 
+desc 'kills workers'
 task :kill_workers do
   workers.each do |w|
     sh "scripts/stop_node", w
   end
 end
 
+desc 'create a new app in the library (skel is optional)'
 task :new_app, [:dir,:skel] do |t,args|
   args.with_defaults(:skel => 'skel')
   unless args[:dir]
