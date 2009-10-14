@@ -57,7 +57,7 @@ end
 # Administrivia
 task :help do
   puts 'Helpful Tasks:'
-  puts '  compile:          Compiles all modules in lib'
+  puts '  compile:          Compiles all modules in all apps in the library'
   puts '  clean:            Removes all compiled modules'
   puts '  test:             Runs Unit Tests'
   puts '  cover:            Runs Unit Tests, Generating Code Coverage Report'
@@ -68,7 +68,7 @@ task :help do
   puts '  kill_workers:     kills any running workers'
   puts '  release:          Builds latest release defined in releases'
   puts '  add_release:      Adds a new release'
-  puts '  new_module:       Creates a new module'
+  puts '  new_app:          Creates a new application in the library'
 end
 
 # Building the Erlang Code
@@ -134,7 +134,12 @@ task :kill_workers do
   end
 end
 
-task :new_module, [:dir,:skel] do |t,args|
+task :new_app, [:dir,:skel] do |t,args|
   args.with_defaults(:skel => 'skel')
+  unless args[:dir]
+    puts 'Please specify a name for the new application...'
+    exit 1
+  end 
   copy_skel args[:skel], args[:dir]
 end
+
