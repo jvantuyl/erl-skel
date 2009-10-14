@@ -1,0 +1,28 @@
+This is a skeleton for a basic Erlang environment.
+
+The popular tool rake is used to automate a few handy tasks.
+
+To start coding, simply execute:
+
+  rake new_app[test]
+
+This will create a new application named test in a local library (the lib
+directory).  To get started, look in lib/test-0.1/src.  There you can create
+modules (.erl files) and they will be automatically compiled.  Two sample
+modules are provided, that create a simple, skeleton application according to
+the OTP design guidelines.
+
+To compile everything, execute:
+
+  rake compile
+
+To get a live environment with your applications loaded, try:
+
+  rake console
+
+To get a complete list of rake tasks, run:
+
+  rake -T
+
+Good luck!
+
